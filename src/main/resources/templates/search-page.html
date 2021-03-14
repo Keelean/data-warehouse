@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Import Deals Page</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+</head>
+<body>
+	<section class="my-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<h2>Search File</h2>
+					<p th:text="${message}" th:if="${message ne null}"
+						class="alert alert-primary"></p>
+					<form method="post" th:action="@{/search}" th:object="${search}">
+					<span>Enter filename to search</span>
+						<div class="form-group">
+							<input type="text" name="search" class="form-control-file" th:field="*{search}">
+						</div>
+						<button type="submit" class="btn btn-primary">Search File</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

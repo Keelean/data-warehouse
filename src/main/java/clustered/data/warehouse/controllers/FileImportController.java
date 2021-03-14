@@ -69,9 +69,6 @@ public class FileImportController {
 		log.info("******FILE PATH: [{}]", path.toString());
         Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-		String uploadPath = context.getRealPath("") + File.separator + "temp" + File.separator;
-		// Now do something with file...
-		String filePath = uploadPath + file.getOriginalFilename();
 		//FileCopyUtils.copy(file.getBytes(), new File(uploadPath + file.getOriginalFilename()));
 		ReportSummary summary = fileService.processCSV(path.toString(), filename);
 		attributes.addFlashAttribute("message", summary);

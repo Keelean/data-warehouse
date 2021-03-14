@@ -1,7 +1,9 @@
 package clustered.data.warehouse.services;
 
+import clustered.data.warehouse.model.helpers.ReportSummary;
+
 public interface FileService {
 	
-	void processCSV(String importPath, String filename);
+	ReportSummary processCSV(String importPath, String filename);
 
 }

@@ -58,7 +58,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 			if (!invalidDeals.isEmpty()) {
 				invalidDealRepository.saveAll(invalidDeals);
 			}
-			
+			log.info("TESTING");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

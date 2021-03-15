@@ -48,6 +48,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 	private final DealValidator validator;
 	private final FileImportInfoRepository fileImportRepository;
 	private final CurrencyDealService currencyDealService;
+	private final CSVParser csvParser;
 
 	@Override
 	public ReportSummary processCSV(Path importPath, String filename, InputStream inpuStream) {
@@ -57,7 +58,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 	        Files.copy(inpuStream, importPath, StandardCopyOption.REPLACE_EXISTING);
 			
 			Long startTime = System.currentTimeMillis();
-			List<DealBean> deals = convertCSVToList(importPath.toString());
+			List<DealBean> deals = csvParser.convertCSVToList(importPath.toString());
 			Long endTime = System.currentTimeMillis();
 			Long duration = ((endTime - startTime));
 			log.info("Processing Time after CSV Loading: [{}]", duration);
@@ -119,6 +120,7 @@ public class FileServiceImpl extends BaseService implements FileService {
 				log.info("Processing Time after setting file info invalid deals: [{}]", duration);
 				
 				invalidDealRepository.saveAll(invalidDealsList);
+
 				
 				endTime = System.currentTimeMillis();
 				duration = ((endTime - startTime));
@@ -141,30 +143,6 @@ public class FileServiceImpl extends BaseService implements FileService {
 		return ReportSummary.builder().processDuration(0l).noOfInvalidDeals(0).noOfDeals(0).build();
 	}
 
-	private static Reader getReader(String relativePath) throws FileNotFoundException {
-		try {
-			return new InputStreamReader(new FileInputStream(relativePath), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			throw new IllegalStateException("Unable to read input", e);
-		}
-	}
-
-	private List<DealBean> convertCSVToList(final String filePath) throws FileNotFoundException {
-		BeanListProcessor<DealBean> rowProcessor = new BeanListProcessor<DealBean>(DealBean.class);
-
-		CsvParserSettings parserSettings = new CsvParserSettings();
-		parserSettings.getFormat().setLineSeparator("\n");
-		parserSettings.getFormat().setQuoteEscape('\\');
-		parserSettings.setProcessor(rowProcessor);
-		parserSettings.setHeaderExtractionEnabled(true);
-		parserSettings.setLineSeparatorDetectionEnabled(true);
-
-		CsvParser parser = new CsvParser(parserSettings);
-		parser.parse(getReader(filePath));
-
-		List<DealBean> beans = rowProcessor.getBeans();
-		return beans;
-	}
 	
 	protected static void createDirectory(String filePath) {
 		File targetDir = new File(filePath);

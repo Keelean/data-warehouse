@@ -66,9 +66,7 @@ public class FileImportController {
 		
 		Path path = Paths.get(UPLOAD_DIR + filename);
 		
-		log.info("***PATH:" +path.toString());
-		//createDirectory(path.toString());
-        //Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);									
+		log.info("***PATH:" +path.toString());								
 
 		ReportSummary summary = fileService.processCSV(path, filename, file.getInputStream());
 		log.info("***SUMMARY:" +summary);

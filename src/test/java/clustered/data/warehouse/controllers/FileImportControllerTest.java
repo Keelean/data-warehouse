@@ -5,13 +5,10 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.io.InputStream;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -28,14 +25,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import clustered.data.warehouse.model.helpers.SearchFile;
-import clustered.data.warehouse.repositories.FileImportInfoRepository;
-import clustered.data.warehouse.repositories.InvalidDealRepository;
-import clustered.data.warehouse.repositories.ValidDealRepository;
-import clustered.data.warehouse.services.CurrencyDealService;
 import clustered.data.warehouse.services.FileImportInfoService;
 import clustered.data.warehouse.services.FileService;
-import clustered.data.warehouse.validator.DealValidator;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = FileImportController.class)
@@ -51,7 +42,7 @@ public class FileImportControllerTest {
 	  private FileImportInfoService fileImportInfoService;
 	  
 	  @Test
-	  @DisplayName("Index Page")
+	  @DisplayName("Test Index Page")
 	  public void givenHomePageURI_whenMockMVC_thenReturnsIndexThymeleafViewName() throws Exception {
 	      this.mockMvc.perform(get("/")).andDo(print())
 	      	.andExpect(status().isOk())
@@ -60,7 +51,7 @@ public class FileImportControllerTest {
 	  }
 	  
 	  @Test
-	  @DisplayName("Selected A Non CSV File")
+	  @DisplayName("Test Selected A Non CSV File")
 	  public void givenNonCSVFileWasSelected_whenMockMVC_thenReturnUploadPageWithErrorMessage() throws Exception {
 		    MockMultipartFile file 
 		      = new MockMultipartFile(
@@ -76,7 +67,7 @@ public class FileImportControllerTest {
 	  
 	  
 	  @Test
-	  @DisplayName("No File Selected")
+	  @DisplayName("Test No File Selected")
 	  public void givenNoFileWasSelected_whenMockMVC_thenReturnUploadPageWithErrorMessage() throws Exception {
 		    MockMultipartFile file 
 		      = new MockMultipartFile(
@@ -92,7 +83,7 @@ public class FileImportControllerTest {
 	  
 	  @Disabled
 	  @Test
-	  @DisplayName("A CSV File Uploaded")
+	  @DisplayName("Test A CSV File Uploaded")
 	  public void givenACSVSelected_whenMockMVC_thenReturnUploadPageWithMessage() throws Exception {
 		 Resource resource = new ClassPathResource("test.csv");
 		  

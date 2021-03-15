@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 
 import com.univocity.parsers.annotations.Parsed;
 
+import lombok.Builder;
+import lombok.Builder.Default;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -12,6 +14,7 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
+@Builder
 public class DealBean {
 	
 	@Parsed(index = 0)
@@ -24,7 +27,7 @@ public class DealBean {
 	private String stringTimestamp;
 	@Parsed(index = 4)
 	private String stringAmount;
-	
+	@Default
 	private boolean valid = true;
 	private BigDecimal amount;
 	private LocalDateTime dealTimestamp;

@@ -1,10 +1,17 @@
 package clustered.data.warehouse.services.impl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,11 +50,14 @@ public class FileServiceImpl extends BaseService implements FileService {
 	private final CurrencyDealService currencyDealService;
 
 	@Override
-	public ReportSummary processCSV(String importPath, String filename) {
+	public ReportSummary processCSV(Path importPath, String filename, InputStream inpuStream) {
 
 		try {
+			createDirectory(importPath.toString());
+	        Files.copy(inpuStream, importPath, StandardCopyOption.REPLACE_EXISTING);
+			
 			Long startTime = System.currentTimeMillis();
-			List<DealBean> deals = convertCSVToList(importPath);
+			List<DealBean> deals = convertCSVToList(importPath.toString());
 			Long endTime = System.currentTimeMillis();
 			Long duration = ((endTime - startTime));
 			log.info("Processing Time after CSV Loading: [{}]", duration);
@@ -71,14 +81,12 @@ public class FileServiceImpl extends BaseService implements FileService {
 			List<DealBean> validDealBeans = groupedValidatedBeans.get(Boolean.TRUE);
 			// Convert to Valid Deal Entity
 			List<ValidDeal> convertedValidDeals = convertCollections(validDealBeans, ValidDeal.class);
-
 			// Extract valid deals
 			List<DealBean> invalidDealBeans = groupedValidatedBeans.get(Boolean.FALSE);
 			// Convert to Valid Deal Entity
 			List<InvalidDeal> convertedInvalidDeals = convertCollections(invalidDealBeans, InvalidDeal.class);
-
 			FileImportInfo fileInfo = fileImportRepository.save(FileImportInfo.builder().filename(filename).build());
-
+			
 			if (!convertedValidDeals.isEmpty()) {
 				List<ValidDeal> validDealsList = convertedValidDeals.parallelStream().map(deal -> {
 					deal.setFileInfo(fileInfo);
@@ -111,9 +119,6 @@ public class FileServiceImpl extends BaseService implements FileService {
 				log.info("Processing Time after setting file info invalid deals: [{}]", duration);
 				
 				invalidDealRepository.saveAll(invalidDealsList);
-				Map<String, Long> countDeals = invalidDealBeans.parallelStream()
-						.collect(Collectors.groupingBy(DealBean::getFromCurrencyCode, Collectors.counting()));
-				countDeals.forEach((currencyCode, countOfDeals) -> currencyDealService.incrementDeals(currencyCode, countOfDeals));
 				
 				endTime = System.currentTimeMillis();
 				duration = ((endTime - startTime));
@@ -127,6 +132,9 @@ public class FileServiceImpl extends BaseService implements FileService {
 			return ReportSummary.builder().processDuration(duration).noOfInvalidDeals(convertedInvalidDeals.size()).noOfDeals(convertedValidDeals.size()).build();
 
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return ReportSummary.builder().build();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
@@ -156,6 +164,13 @@ public class FileServiceImpl extends BaseService implements FileService {
 
 		List<DealBean> beans = rowProcessor.getBeans();
 		return beans;
+	}
+	
+	protected static void createDirectory(String filePath) {
+		File targetDir = new File(filePath);
+		if (!targetDir.exists()) {
+			targetDir.mkdirs();
+		}
 	}
 
 }

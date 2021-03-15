@@ -30,7 +30,6 @@ public class SearchController {
 	
 	@PostMapping("/search")
 	public String searchResult(@ModelAttribute("search") SearchFile search, RedirectAttributes attributes) {
-		
 		if(Objects.isNull(search.getSearch()) || search.getSearch().isEmpty()) {
 			attributes.addFlashAttribute("message", "Please enter a file name to search.");
 			return "redirect:/search";

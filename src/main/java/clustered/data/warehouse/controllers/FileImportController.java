@@ -2,6 +2,7 @@ package clustered.data.warehouse.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FileImportController {
 
-	private final ServletContext context;
 	private final FileService fileService;
 	private final FileImportInfoService fileImportInfoService;
 	
@@ -52,33 +52,29 @@ public class FileImportController {
 		String filename = file.getOriginalFilename().trim().replaceAll("\\s+", "_");
 		filename = StringUtils.cleanPath(filename);
 		
+		log.info("***FILENAME:" +filename);
+		
 		if (!filename.endsWith(".csv")) {
 			attributes.addFlashAttribute("message", "Please select a csv file to upload.");
 			return "redirect:/";
 		}
 		
-		log.info("******FILENAME: [{}]", filename);
-
 		if (fileImportInfoService.isFileExist(filename)) {
 			attributes.addFlashAttribute("message", String.format("Please select another file with a different name. This %s already exist.",filename));
 			return "redirect:/";
 		}
 		
 		Path path = Paths.get(UPLOAD_DIR + filename);
-		createDirectory(path.toString());
-		log.info("******FILE PATH: [{}]", path.toString());
-        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+		
+		log.info("***PATH:" +path.toString());
+		//createDirectory(path.toString());
+        //Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);									
 
-		//FileCopyUtils.copy(file.getBytes(), new File(uploadPath + file.getOriginalFilename()));
-		ReportSummary summary = fileService.processCSV(path.toString(), filename);
+		ReportSummary summary = fileService.processCSV(path, filename, file.getInputStream());
+		log.info("***SUMMARY:" +summary);
 		attributes.addFlashAttribute("message", summary);
 		return  "redirect:/";
 	}
 	
-	protected static void createDirectory(String filePath) {
-		File targetDir = new File(filePath);
-		if (!targetDir.exists()) {
-			targetDir.mkdirs();
-		}
-	}
+	
 }

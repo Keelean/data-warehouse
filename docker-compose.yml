@@ -25,6 +25,7 @@ services:
     ports:
       - '3306:3306'
   data-warehouse:
+    image: data-warehouse
     build:
       context: .
       dockerfile: Dockerfile

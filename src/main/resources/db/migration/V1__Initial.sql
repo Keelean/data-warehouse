@@ -12,12 +12,12 @@ CREATE TABLE valid_deal (
 
 CREATE TABLE invalid_deal (
 	id int not null AUTO_INCREMENT PRIMARY KEY, 
-	deal_id int,
-	from_currency_code char(3),
-	to_currency_code char(3),
+	deal_id varchar(50),
+	from_currency_code varchar(50),
+	to_currency_code varchar(50),
 	file_info_id int,
-	amount decimal(15,2),
-	deal_timestamp timestamp
+	amount varchar(100),
+	deal_timestamp varchar(255)
 );
 
 CREATE TABLE file_import_info (

@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import clustered.data.warehouse.entities.DealEntity;
 import clustered.data.warehouse.entities.FileImportInfo;
@@ -53,15 +55,15 @@ public class FileServiceTest {
 	void doProcessCSVService() {
 
 		DealBean dealOne = DealBean.builder().dealId("1").stringAmount("1000.25").fromCurrencyCode("USD")
-				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").valid(true).build();
-		DealBean dealTwo = DealBean.builder().dealId("2").stringAmount("1005").fromCurrencyCode("USD")
 				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").build();
-		DealBean dealThree = DealBean.builder().dealId("3").stringAmount("1100").valid(true).fromCurrencyCode("USD")
+		DealBean dealTwo = DealBean.builder().dealId("2").stringAmount("1005").fromCurrencyCode("USD")
+				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").valid(false).build();
+		DealBean dealThree = DealBean.builder().dealId("3").stringAmount("1100").fromCurrencyCode("USD")
 				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").build();
 		DealBean dealFour = DealBean.builder().dealId("4").stringAmount("2000").fromCurrencyCode("USD")
 				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").build();
 		DealBean dealFive = DealBean.builder().dealId("5").stringAmount("9000").fromCurrencyCode("USD")
-				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").valid(true).build();
+				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").valid(false).build();
 
 		List<DealBean> dealBeans = Arrays.asList(dealOne, dealTwo, dealThree, dealFour, dealFive);
 
@@ -74,8 +76,8 @@ public class FileServiceTest {
 			doReturn(dealBeans).when(validator).validate(dealBeans);
 			doReturn(fileImportInfo).when(fileImportRepository).save(fileImportInfo);
 			
-
-			ReportSummary summary = fileService.processCSV(path, "test,csv", resource.getInputStream());
+			
+			ReportSummary summary = fileService.processCSV(path.toString(), "test,csv", resource.getInputStream());
 			Assertions.assertEquals(2, summary.getNoOfInvalidDeals());
 			Assertions.assertEquals(3, summary.getNoOfDeals());
 		} catch (IOException e) {

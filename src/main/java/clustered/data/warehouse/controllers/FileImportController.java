@@ -32,8 +32,7 @@ public class FileImportController {
 
 	private final FileService fileService;
 	private final FileImportInfoService fileImportInfoService;
-	
-	 private final String UPLOAD_DIR = "./uploads/";
+	private final String UPLOAD_DIR = "./uploads/";
 
 	@GetMapping("/")
 	public String displayFileImportPage() {
@@ -41,15 +40,15 @@ public class FileImportController {
 	}
 
 	@PostMapping("/upload")
-	public String processImportedFile(@RequestParam("file") MultipartFile file, RedirectAttributes attributes)
-			throws IOException {
+	public String processImportedFile(@RequestParam("file") MultipartFile multipartFile, RedirectAttributes attributes) throws IOException
+			{
 		
-		if (file.isEmpty()) {
+		if (multipartFile.isEmpty()) {
 			attributes.addFlashAttribute("message", "Please select a csv file to upload.");
 			return "redirect:/";
 		}
-
-		String filename = file.getOriginalFilename().trim().replaceAll("\\s+", "_");
+	
+		String filename = multipartFile.getOriginalFilename().trim().replaceAll("\\s+", "_");
 		filename = StringUtils.cleanPath(filename);
 		
 		log.info("***FILENAME:" +filename);
@@ -64,11 +63,11 @@ public class FileImportController {
 			return "redirect:/";
 		}
 		
-		Path path = Paths.get(UPLOAD_DIR + filename);
+		String path = UPLOAD_DIR + filename;
 		
 		log.info("***PATH:" +path.toString());								
 
-		ReportSummary summary = fileService.processCSV(path, filename, file.getInputStream());
+		ReportSummary summary = fileService.processCSV(path, filename,  multipartFile.getInputStream());
 		log.info("***SUMMARY:" +summary);
 		attributes.addFlashAttribute("message", summary);
 		return  "redirect:/";

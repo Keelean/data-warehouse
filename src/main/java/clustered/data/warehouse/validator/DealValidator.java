@@ -50,9 +50,8 @@ public class DealValidator {
 			bean.setValid(false);
 			return bean;
 		}
-		// ^\d+(?:\.\d{0,2})?$
-		// ^\\d+(\\.\\d{0,2})?$"
-		if (!bean.getStringAmount().matches("^\\d+(?:\\.\\d{0,2})?$")) {
+
+		if (!bean.getStringAmount().matches("^\\d*\\.?\\d*$")) {
 			bean.setValid(false);
 			return bean;
 		}

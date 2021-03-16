@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Import Deals Page</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+</head>
+<body>
+	<section class="my-5">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<h2>Something Went Wrong!</h2>
+					<p th:text="${message}" th:if="${message ne null}" class="alert alert-primary">
+						<a href="/">Home</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

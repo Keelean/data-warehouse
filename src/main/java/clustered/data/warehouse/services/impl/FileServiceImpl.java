@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.univocity.parsers.common.processor.BeanListProcessor;
 import com.univocity.parsers.csv.CsvParser;
@@ -42,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class FileServiceImpl extends BaseService implements FileService {
+	
 
 	private final ValidDealRepository validDealRepository;
 	private final InvalidDealRepository invalidDealRepository;
@@ -51,14 +53,15 @@ public class FileServiceImpl extends BaseService implements FileService {
 	private final CSVParser csvParser;
 
 	@Override
-	public ReportSummary processCSV(Path importPath, String filename, InputStream inpuStream) {
+	public ReportSummary processCSV(String filePath, String filename, InputStream inpuStream) {
 
 		try {
-			createDirectory(importPath.toString());
-	        Files.copy(inpuStream, importPath, StandardCopyOption.REPLACE_EXISTING);
+			Path path = Paths.get(filePath);
+			createDirectory(path.toString());
+	        Files.copy(inpuStream, path, StandardCopyOption.REPLACE_EXISTING);
 			
 			Long startTime = System.currentTimeMillis();
-			List<DealBean> deals = csvParser.convertCSVToList(importPath.toString());
+			List<DealBean> deals = csvParser.convertCSVToList(path.toString());
 			Long endTime = System.currentTimeMillis();
 			Long duration = ((endTime - startTime));
 			log.info("Processing Time after CSV Loading: [{}]", duration);

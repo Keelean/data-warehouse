@@ -29,12 +29,12 @@ import clustered.data.warehouse.entities.InvalidDeal;
 import clustered.data.warehouse.entities.ValidDeal;
 import clustered.data.warehouse.model.helpers.DealBean;
 import clustered.data.warehouse.model.helpers.ReportSummary;
-import clustered.data.warehouse.repositories.FileImportInfoRepository;
+import clustered.data.warehouse.repositories.DealImportInfoRepository;
 import clustered.data.warehouse.repositories.InvalidDealRepository;
 import clustered.data.warehouse.repositories.ValidDealRepository;
 import clustered.data.warehouse.services.BaseService;
 import clustered.data.warehouse.services.CurrencyDealService;
-import clustered.data.warehouse.services.FileService;
+import clustered.data.warehouse.services.DealImportService;
 import clustered.data.warehouse.validator.DealValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,13 +42,13 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FileServiceImpl extends BaseService implements FileService {
+public class DealServiceImpl extends BaseService implements DealImportService {
 	
 
 	private final ValidDealRepository validDealRepository;
 	private final InvalidDealRepository invalidDealRepository;
 	private final DealValidator validator;
-	private final FileImportInfoRepository fileImportRepository;
+	private final DealImportInfoRepository fileImportRepository;
 	private final CurrencyDealService currencyDealService;
 	private final CSVParser csvParser;
 

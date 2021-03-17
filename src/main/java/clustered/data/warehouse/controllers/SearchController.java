@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import clustered.data.warehouse.model.helpers.SearchFile;
-import clustered.data.warehouse.services.FileImportInfoService;
+import clustered.data.warehouse.services.DealImportInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SearchController {
 	
-	private final FileImportInfoService fileImportInfoService;
+	private final DealImportInfoService dealImportInfoService;
 
 	@GetMapping("/search")
 	public String displaySearchPage(Model model) {
@@ -41,7 +41,7 @@ public class SearchController {
 			filename = filename + ".csv";
 		}
 		
-		String result = fileImportInfoService.getFile(filename);
+		String result = dealImportInfoService.getFile(filename);
 		attributes.addFlashAttribute("message", result);
 		return "redirect:/search";
 	}

@@ -24,7 +24,7 @@ import clustered.data.warehouse.entities.InvalidDeal;
 import clustered.data.warehouse.entities.ValidDeal;
 import clustered.data.warehouse.model.helpers.DealBean;
 import clustered.data.warehouse.model.helpers.ReportSummary;
-import clustered.data.warehouse.repositories.FileImportInfoRepository;
+import clustered.data.warehouse.repositories.DealImportInfoRepository;
 import clustered.data.warehouse.repositories.InvalidDealRepository;
 import clustered.data.warehouse.repositories.ValidDealRepository;
 import clustered.data.warehouse.services.impl.CSVParser;
@@ -33,10 +33,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
-public class FileServiceTest {
+public class DealImportServiceTest {
 
 	@Autowired
-	private FileService fileService;
+	private DealImportService dealService;
 
 	@MockBean
 	private ValidDealRepository validDealRepository;
@@ -45,7 +45,7 @@ public class FileServiceTest {
 	@MockBean
 	private DealValidator validator;
 	@MockBean
-	private FileImportInfoRepository fileImportRepository;
+	private DealImportInfoRepository dealImportRepository;
 	@MockBean
 	private CurrencyDealService currencyDealService;
 	@MockBean
@@ -74,10 +74,10 @@ public class FileServiceTest {
 			Path path = Paths.get("./uploads/test.csv");
 			doReturn(dealBeans).when(csvParser).convertCSVToList(path.toString());
 			doReturn(dealBeans).when(validator).validate(dealBeans);
-			doReturn(fileImportInfo).when(fileImportRepository).save(fileImportInfo);
+			doReturn(fileImportInfo).when(dealImportRepository).save(fileImportInfo);
 			
 			
-			ReportSummary summary = fileService.processCSV(path.toString(), "test,csv", resource.getInputStream());
+			ReportSummary summary = dealService.processCSV(path.toString(), "test,csv", resource.getInputStream());
 			Assertions.assertEquals(2, summary.getNoOfInvalidDeals());
 			Assertions.assertEquals(3, summary.getNoOfDeals());
 		} catch (IOException e) {

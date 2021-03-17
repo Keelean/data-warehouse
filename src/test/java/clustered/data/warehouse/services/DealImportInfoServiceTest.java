@@ -19,25 +19,25 @@ import clustered.data.warehouse.entities.DealEntity;
 import clustered.data.warehouse.entities.FileImportInfo;
 import clustered.data.warehouse.entities.InvalidDeal;
 import clustered.data.warehouse.entities.ValidDeal;
-import clustered.data.warehouse.repositories.FileImportInfoRepository;
+import clustered.data.warehouse.repositories.DealImportInfoRepository;
 
 @SpringBootTest
-public class FileImportInfoServiceTest {
+public class DealImportInfoServiceTest {
 
 	@Autowired
-	private FileImportInfoService fileImportInfoService;
+	private DealImportInfoService dealImportInfoService;
 
 	@MockBean
-	private FileImportInfoRepository fileImportInfoRepository;
+	private DealImportInfoRepository dealImportInfoRepository;
 
 	@Test
 	@DisplayName("Test File Exist")
 	void testFileExists() {
 
 		FileImportInfo fileInfo = FileImportInfo.builder().filename("test002.csv").build();
-		doReturn(Optional.of(fileInfo)).when(fileImportInfoRepository).findByFilename("test002.csv");
+		doReturn(Optional.of(fileInfo)).when(dealImportInfoRepository).findByFilename("test002.csv");
 
-		boolean fileExist = fileImportInfoService.isFileExist("test002.csv");
+		boolean fileExist = dealImportInfoService.isFileExist("test002.csv");
 		Assertions.assertTrue(fileExist);
 	}
 
@@ -45,9 +45,9 @@ public class FileImportInfoServiceTest {
 	@DisplayName("Test File Does Not Exist")
 	void testFileDoesExists() {
 		FileImportInfo fileInfo = FileImportInfo.builder().filename("test002.csv").build();
-		doReturn(Optional.of(fileInfo)).when(fileImportInfoRepository).findByFilename("test002.csv");
+		doReturn(Optional.of(fileInfo)).when(dealImportInfoRepository).findByFilename("test002.csv");
 
-		boolean fileExist = fileImportInfoService.isFileExist("test003.csv");
+		boolean fileExist = dealImportInfoService.isFileExist("test003.csv");
 		Assertions.assertFalse(fileExist);
 	}
 
@@ -78,9 +78,9 @@ public class FileImportInfoServiceTest {
 		setsOfInvalidDeals.add(invalidDeal);
 		fileInfo.setInvalidDeals(setsOfInvalidDeals);
 		
-		doReturn(Optional.of(fileInfo)).when(fileImportInfoRepository).findByFilename("test002.csv");
+		doReturn(Optional.of(fileInfo)).when(dealImportInfoRepository).findByFilename("test002.csv");
 		
-		String result = fileImportInfoService.getFile("test002.csv");
+		String result = dealImportInfoService.getFile("test002.csv");
 		Assertions.assertTrue(result.contains("Valid Deals: 1"));
 		Assertions.assertTrue(result.contains("Filename: test002.csv"));
 		Assertions.assertTrue(result.contains("Invalid Deals: 1"));
@@ -90,7 +90,7 @@ public class FileImportInfoServiceTest {
 	@DisplayName("Test Get File Not Exist")
 	void testGetFileNotExist() {
 		
-		String result = fileImportInfoService.getFile("test002.csv");
+		String result = dealImportInfoService.getFile("test002.csv");
 		Assertions.assertTrue(result.contains("test002.csv does not exist!"));
 	}
 }

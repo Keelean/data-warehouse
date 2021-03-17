@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import clustered.data.warehouse.model.helpers.SearchFile;
-import clustered.data.warehouse.services.FileImportInfoService;
+import clustered.data.warehouse.services.DealImportInfoService;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = SearchController.class)
@@ -29,7 +29,7 @@ public class SearchControllerTest {
 	private MockMvc mockMvc;
 
 	@MockBean
-	private FileImportInfoService fileImportInfoService;
+	private DealImportInfoService fileImportInfoService;
 
 	@Test
 	@DisplayName("Search Page")

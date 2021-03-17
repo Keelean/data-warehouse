@@ -15,7 +15,7 @@ import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
 import clustered.data.warehouse.model.helpers.DealBean;
-import clustered.data.warehouse.repositories.FileImportInfoRepository;
+import clustered.data.warehouse.repositories.DealImportInfoRepository;
 import clustered.data.warehouse.repositories.InvalidDealRepository;
 import clustered.data.warehouse.repositories.ValidDealRepository;
 import clustered.data.warehouse.services.CurrencyDealService;

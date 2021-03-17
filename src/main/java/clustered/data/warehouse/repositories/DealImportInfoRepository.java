@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import clustered.data.warehouse.entities.FileImportInfo;
 
 @Repository
-public interface FileImportInfoRepository extends JpaRepository<FileImportInfo, Long> {
+public interface DealImportInfoRepository extends JpaRepository<FileImportInfo, Long> {
 	
 	Optional<FileImportInfo> findByFilename(String filename);
 }

@@ -1,6 +1,6 @@
 package clustered.data.warehouse.services;
 
-public interface FileImportInfoService {
+public interface DealImportInfoService {
 
 	boolean isFileExist(String filename);
 

@@ -38,21 +38,21 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import clustered.data.warehouse.model.helpers.ReportSummary;
-import clustered.data.warehouse.services.FileImportInfoService;
-import clustered.data.warehouse.services.FileService;
+import clustered.data.warehouse.services.DealImportInfoService;
+import clustered.data.warehouse.services.DealImportService;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = FileImportController.class)
-public class FileImportControllerTest {
+@WebMvcTest(controllers = DealImportController.class)
+public class DealImportControllerTest {
 
 	  @Autowired
 	  private MockMvc mockMvc;
 	  
 	  @MockBean
-	  private FileService fileService;
+	  private DealImportService fileService;
 	  
 	  @MockBean	
-	  private FileImportInfoService fileImportInfoService;
+	  private DealImportInfoService fileImportInfoService;
 	  
 	  @Test
 	  @DisplayName("Test Index Page")

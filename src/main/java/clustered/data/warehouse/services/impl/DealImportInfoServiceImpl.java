@@ -5,26 +5,26 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import clustered.data.warehouse.entities.FileImportInfo;
-import clustered.data.warehouse.repositories.FileImportInfoRepository;
-import clustered.data.warehouse.services.FileImportInfoService;
+import clustered.data.warehouse.repositories.DealImportInfoRepository;
+import clustered.data.warehouse.services.DealImportInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FileImportInfoServiceImpl implements FileImportInfoService {
+public class DealImportInfoServiceImpl implements DealImportInfoService {
 
-	private final FileImportInfoRepository fileImportRepository;
+	private final DealImportInfoRepository dealImportRepository;
 
 	@Override
 	public boolean isFileExist(String filename) {
-		return fileImportRepository.findByFilename(filename).isPresent();
+		return dealImportRepository.findByFilename(filename).isPresent();
 	}
 
 	public String getFile(String filename) {
 
-		Optional<FileImportInfo> optionalFileInfo = fileImportRepository.findByFilename(filename);
+		Optional<FileImportInfo> optionalFileInfo = dealImportRepository.findByFilename(filename);
 
 		if (optionalFileInfo.isPresent()) {
 			FileImportInfo fileInfo = optionalFileInfo.get();

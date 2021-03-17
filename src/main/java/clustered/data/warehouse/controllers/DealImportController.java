@@ -20,18 +20,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import clustered.data.warehouse.model.helpers.ReportSummary;
-import clustered.data.warehouse.services.FileImportInfoService;
-import clustered.data.warehouse.services.FileService;
+import clustered.data.warehouse.services.DealImportInfoService;
+import clustered.data.warehouse.services.DealImportService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class FileImportController {
+public class DealImportController {
 
-	private final FileService fileService;
-	private final FileImportInfoService fileImportInfoService;
+	private final DealImportService dealService;
+	private final DealImportInfoService dealImportInfoService;
 	private final String UPLOAD_DIR = "./uploads/";
 
 	@GetMapping("/")
@@ -58,7 +58,7 @@ public class FileImportController {
 			return "redirect:/";
 		}
 		
-		if (fileImportInfoService.isFileExist(filename)) {
+		if (dealImportInfoService.isFileExist(filename)) {
 			attributes.addFlashAttribute("message", String.format("Please select another file with a different name. This %s already exist.",filename));
 			return "redirect:/";
 		}
@@ -67,7 +67,7 @@ public class FileImportController {
 		
 		log.info("***PATH:" +path.toString());								
 
-		ReportSummary summary = fileService.processCSV(path, filename,  multipartFile.getInputStream());
+		ReportSummary summary = dealService.processCSV(path, filename,  multipartFile.getInputStream());
 		log.info("***SUMMARY:" +summary);
 		attributes.addFlashAttribute("message", summary);
 		return  "redirect:/";

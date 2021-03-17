@@ -20,20 +20,9 @@ import lombok.ToString;
 @Table
 @NoArgsConstructor
 @AllArgsConstructor
-public class InvalidDeal extends BaseEntity {
+public class InvalidDeal extends DealEntity {
 
 	private static final long serialVersionUID = 1L;
-
-	@Column
-	private String dealId;
-	@Column
-	private String fromCurrencyCode;
-	@Column
-	private String toCurrencyCode;
-	@Column(name = "deal_timestamp")
-	private String stringTimestamp;
-	@Column(name = "amount")
-	private String stringAmount;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "file_info_id")

@@ -57,10 +57,10 @@ public class FileImportInfoServiceTest {
 		FileImportInfo fileInfo = FileImportInfo.builder().filename("test002.csv").build();
 		ValidDeal validDeal = new ValidDeal();
 		
-		validDeal.setAmount(BigDecimal.valueOf(1000));
+		validDeal.setAmount("1000.00");
 		validDeal.setFileInfo(fileInfo);
 		validDeal.setDealId("222");
-		validDeal.setDealTimestamp(LocalDateTime.now());
+		validDeal.setDealTimestamp("");
 		validDeal.setFromCurrencyCode("EUR");
 		validDeal.setToCurrencyCode("USD");
 		Set<ValidDeal> setsOfvalidDeals = new HashSet<>();
@@ -68,10 +68,10 @@ public class FileImportInfoServiceTest {
 		fileInfo.setValidDeals(setsOfvalidDeals);
 		
 		InvalidDeal invalidDeal = new InvalidDeal();
-		validDeal.setAmount(BigDecimal.valueOf(1000));
+		validDeal.setAmount("2000.00");
 		validDeal.setFileInfo(fileInfo);
 		validDeal.setDealId("222");
-		validDeal.setDealTimestamp(LocalDateTime.now());
+		validDeal.setDealTimestamp("2019-03-04T23:09:06");
 		validDeal.setFromCurrencyCode("USD");
 		validDeal.setToCurrencyCode("EUR");
 		Set<InvalidDeal> setsOfInvalidDeals = new HashSet<>();

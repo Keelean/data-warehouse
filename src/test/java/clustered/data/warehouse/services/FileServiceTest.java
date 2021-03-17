@@ -54,16 +54,16 @@ public class FileServiceTest {
 	@Test
 	void doProcessCSVService() {
 
-		DealBean dealOne = DealBean.builder().dealId("1").stringAmount("1000.25").fromCurrencyCode("USD")
-				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").build();
-		DealBean dealTwo = DealBean.builder().dealId("2").stringAmount("1005").fromCurrencyCode("USD")
-				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").valid(false).build();
-		DealBean dealThree = DealBean.builder().dealId("3").stringAmount("1100").fromCurrencyCode("USD")
-				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").build();
-		DealBean dealFour = DealBean.builder().dealId("4").stringAmount("2000").fromCurrencyCode("USD")
-				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").build();
-		DealBean dealFive = DealBean.builder().dealId("5").stringAmount("9000").fromCurrencyCode("USD")
-				.toCurrencyCode("EUR").stringTimestamp("2019-03-04T23:09:06,1005").valid(false).build();
+		DealBean dealOne = DealBean.builder().dealId("1").amount("1000.25").fromCurrencyCode("USD")
+				.toCurrencyCode("EUR").dealTimestamp("2019-03-04T23:09:06,1005").build();
+		DealBean dealTwo = DealBean.builder().dealId("2").amount("1005").fromCurrencyCode("USD")
+				.toCurrencyCode("EUR").dealTimestamp("2019-03-04T23:09:06,1005").valid(false).build();
+		DealBean dealThree = DealBean.builder().dealId("3").amount("1100").fromCurrencyCode("USD")
+				.toCurrencyCode("EUR").dealTimestamp("2019-03-04T23:09:06,1005").build();
+		DealBean dealFour = DealBean.builder().dealId("4").amount("2000").fromCurrencyCode("USD")
+				.toCurrencyCode("EUR").dealTimestamp("2019-03-04T23:09:06,1005").build();
+		DealBean dealFive = DealBean.builder().dealId("5").amount("9000").fromCurrencyCode("USD")
+				.toCurrencyCode("EUR").dealTimestamp("2019-03-04T23:09:06,1005").valid(false).build();
 
 		List<DealBean> dealBeans = Arrays.asList(dealOne, dealTwo, dealThree, dealFour, dealFive);
 

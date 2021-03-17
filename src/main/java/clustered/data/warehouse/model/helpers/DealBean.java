@@ -28,12 +28,11 @@ public class DealBean {
 	@Parsed(index = 2)
 	private String toCurrencyCode;
 	@Parsed(index = 3)
-	private String stringTimestamp;
+	private String dealTimestamp;
 	@Parsed(index = 4)
-	private String stringAmount;
+	private String amount;
 	
 	@Default
 	private boolean valid = true;
-	private BigDecimal amount;
-	private LocalDateTime dealTimestamp;
+
 }

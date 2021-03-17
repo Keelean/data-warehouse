@@ -1,8 +1,5 @@
 package clustered.data.warehouse.validator;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,14 +20,14 @@ public class DealValidator {
 			return bean;
 		}
 				
-		if (Objects.isNull(bean.getStringAmount()) || Objects.isNull(bean.getFromCurrencyCode())
-				|| Objects.isNull(bean.getToCurrencyCode()) || Objects.isNull(bean.getStringTimestamp())) {
+		if (Objects.isNull(bean.getAmount()) || Objects.isNull(bean.getFromCurrencyCode())
+				|| Objects.isNull(bean.getToCurrencyCode()) || Objects.isNull(bean.getDealTimestamp())) {
 			bean.setValid(false);
 			return bean;
 		}
 		
 		if (bean.getFromCurrencyCode().isEmpty() || bean.getToCurrencyCode().isEmpty()
-				|| bean.getStringTimestamp().isEmpty() || bean.getStringAmount().isEmpty()) {
+				|| bean.getDealTimestamp().isEmpty() || bean.getAmount().isEmpty()) {
 			bean.setValid(false);
 			return bean;
 		}
@@ -51,30 +48,19 @@ public class DealValidator {
 			return bean;
 		}
 
-		if (!bean.getStringAmount().matches("^\\d*\\.?\\d*$")) {
+		if (!bean.getAmount().matches("^\\d*\\.?\\d*$")) {
 			bean.setValid(false);
 			return bean;
 		}
-		bean.setAmount(new BigDecimal(bean.getStringAmount()));
 		
 		
 		// matches this format 2018-05-31T12:19:23
 		//(\\d{4}-\\d{2}-\\d{2})[A-Z]+(\\d{2}:\\d{2}:\\d{2}).
 		//^(?:[1-9]\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:Z|[+-][01]\d:[0-5]\d)$
-		if (!bean.getStringTimestamp().matches("^(?:[1-9]\\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{1,9})?$")) {
+		if (!bean.getDealTimestamp().matches("^(?:[1-9]\\d{3}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1\\d|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[1-9]\\d(?:0[48]|[2468][048]|[13579][26])|(?:[2468][048]|[13579][26])00)-02-29)T(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{1,9})?$")) {
 			bean.setValid(false);
 			return bean;
 		}
-		LocalDateTime dateTime = null;
-
-		try {
-			
-			dateTime = LocalDateTime.parse(bean.getStringTimestamp());
-		} catch (DateTimeParseException e) {
-			bean.setValid(false);
-			return bean;
-		}
-		bean.setDealTimestamp(dateTime);
 
 		return bean;
 	}

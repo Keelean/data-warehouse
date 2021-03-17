@@ -1,12 +1,6 @@
 package clustered.data.warehouse.entities;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import lombok.AllArgsConstructor;
@@ -36,8 +30,8 @@ public class DealEntity extends BaseEntity {
 	private String toCurrencyCode;
 	
 	@Column
-	protected LocalDateTime dealTimestamp;
+	protected String dealTimestamp;
 	@Column
-	private BigDecimal amount;
+	private String amount;
 	
 }
